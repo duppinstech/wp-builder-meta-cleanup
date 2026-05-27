@@ -5,7 +5,7 @@ Detect major page builders and companion plugins, show install/active state, and
 ## Compatibility
 
 - **Tested up to:** WordPress 6.7  
-- **Stable tag:** 2.3.2  
+- **Stable tag:** 2.3.3  
 - **License:** GPLv2 or later
 
 Full WordPress.org–style readme (headers, changelog, FAQ): see **readme.txt** in this repository.
@@ -38,6 +38,8 @@ The admin screen uses **tabs**, starting on **Summary** (default landing tab —
 | Hello Elementor | `_hello_%` |
 | BeTheme / Muffin | `mfn-%` |
 | Astra | postmeta: `ast-%`, `_astra_%`; options: exact `astra-settings`, `theme_mods_astra`, `astra_docs_data`, plus `wp_options.option_name LIKE astra_%` and `LIKE astra-%` (covers Astra Sites / Starter Templates, Astra Pro, Astra Addons) |
+| Impreza (UpSolution) | postmeta: `us_%`, `_us_%`; options: exact `usof_options_Impreza`, `theme_mods_Impreza`, `theme_mods_impreza`, plus `wp_options.option_name LIKE usof_%` and `LIKE us_%` |
+| OceanWP | postmeta: `ocean_%`, `_ocean_%`; options: exact `theme_mods_oceanwp`, plus `wp_options.option_name LIKE ocean_%`, `LIKE oceanwp_%`, `LIKE oewt_%` (Ocean Extra widgets) |
 | Fusion / Avada | `_fusion%` plus `wp_options` names `FS_%` |
 | Premium Addons for Elementor | `wp_options` names `PA_%` |
 | Essential Addons for Elementor | `wp_options` names `eael_%` |

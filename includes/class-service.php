@@ -154,6 +154,66 @@ final class Builder_Meta_Cleanup_Service {
 					),
 				),
 			),
+			'impreza'     => array(
+				'label'  => __( 'Impreza (UpSolution)', 'builder-meta-cleanup' ),
+				'ui_tab' => 'theme',
+				'meta'   => array(
+					'us_public'  => array(
+						'label'       => __( 'meta_key LIKE us_%', 'builder-meta-cleanup' ),
+						'like_prefix' => 'us_',
+					),
+					'us_private' => array(
+						'label'       => __( 'meta_key LIKE _us_%', 'builder-meta-cleanup' ),
+						'like_prefix' => '_us_',
+					),
+				),
+				'options' => array(
+					'usof_options_Impreza' => __( 'Impreza — UpSolution Options Framework blob (usof_options_Impreza)', 'builder-meta-cleanup' ),
+					'theme_mods_Impreza'   => __( 'Impreza — Customizer (theme_mods_Impreza)', 'builder-meta-cleanup' ),
+					'theme_mods_impreza'   => __( 'Impreza — Customizer (theme_mods_impreza, lowercase variant)', 'builder-meta-cleanup' ),
+				),
+				'options_like' => array(
+					'usof' => array(
+						'label'       => __( 'wp_options.option_name LIKE usof_% (UpSolution Options Framework)', 'builder-meta-cleanup' ),
+						'like_prefix' => 'usof_',
+					),
+					'us'   => array(
+						'label'       => __( 'wp_options.option_name LIKE us_% (UpSolution shared data / caches)', 'builder-meta-cleanup' ),
+						'like_prefix' => 'us_',
+					),
+				),
+			),
+			'oceanwp'     => array(
+				'label'  => __( 'OceanWP', 'builder-meta-cleanup' ),
+				'ui_tab' => 'theme',
+				'meta'   => array(
+					'ocean_public'  => array(
+						'label'       => __( 'meta_key LIKE ocean_%', 'builder-meta-cleanup' ),
+						'like_prefix' => 'ocean_',
+					),
+					'ocean_private' => array(
+						'label'       => __( 'meta_key LIKE _ocean_%', 'builder-meta-cleanup' ),
+						'like_prefix' => '_ocean_',
+					),
+				),
+				'options' => array(
+					'theme_mods_oceanwp' => __( 'OceanWP — Customizer (theme_mods_oceanwp)', 'builder-meta-cleanup' ),
+				),
+				'options_like' => array(
+					'ocean'   => array(
+						'label'       => __( 'wp_options.option_name LIKE ocean_% (OceanWP core options)', 'builder-meta-cleanup' ),
+						'like_prefix' => 'ocean_',
+					),
+					'oceanwp' => array(
+						'label'       => __( 'wp_options.option_name LIKE oceanwp_% (OceanWP + Ocean Extra)', 'builder-meta-cleanup' ),
+						'like_prefix' => 'oceanwp_',
+					),
+					'oewt'    => array(
+						'label'       => __( 'wp_options.option_name LIKE oewt_% (Ocean Extra widgets)', 'builder-meta-cleanup' ),
+						'like_prefix' => 'oewt_',
+					),
+				),
+			),
 			'fusion'                   => array(
 				'label'    => __( 'Fusion / Avada Builder', 'builder-meta-cleanup' ),
 				'ui_tab'   => 'theme',
@@ -339,6 +399,16 @@ final class Builder_Meta_Cleanup_Service {
 				$s = strtolower( (string) get_stylesheet() );
 				return ( 'astra' === $t || 'astra' === $s );
 
+			case 'impreza':
+				$t = strtolower( (string) get_template() );
+				$s = strtolower( (string) get_stylesheet() );
+				return ( 'impreza' === $t || 'impreza' === $s );
+
+			case 'oceanwp':
+				$t = strtolower( (string) get_template() );
+				$s = strtolower( (string) get_stylesheet() );
+				return ( 'oceanwp' === $t || 'oceanwp' === $s );
+
 			case 'fusion':
 				$t = strtolower( (string) get_template() );
 				$s = strtolower( (string) get_stylesheet() );
@@ -404,6 +474,12 @@ final class Builder_Meta_Cleanup_Service {
 
 			case 'astra':
 				return wp_get_theme( 'astra' )->exists();
+
+			case 'impreza':
+				return wp_get_theme( 'Impreza' )->exists() || wp_get_theme( 'impreza' )->exists();
+
+			case 'oceanwp':
+				return wp_get_theme( 'oceanwp' )->exists();
 
 			case 'fusion':
 				if ( wp_get_theme( 'Avada' )->exists() ) {

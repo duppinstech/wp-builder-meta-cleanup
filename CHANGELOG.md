@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.3.3] — 2026
+
+### Added
+
+- New theme target: **Impreza (UpSolution)**. Detects the `Impreza` / `impreza` template or stylesheet, registers postmeta prefixes `us_` and `_us_`, exact options `usof_options_Impreza`, `theme_mods_Impreza`, `theme_mods_impreza`, and `wp_options` LIKE patterns `usof_%` (UpSolution Options Framework) and `us_%` (UpSolution shared data / caches).
+- New theme target: **OceanWP**. Detects the `oceanwp` template or stylesheet, registers postmeta prefixes `ocean_` and `_ocean_`, the exact option `theme_mods_oceanwp`, and `wp_options` LIKE patterns `ocean_%`, `oceanwp_%`, and `oewt_%` (Ocean Extra widgets).
+
+### Safety
+
+- Both new targets follow the same active-theme guard as Astra / Divi / Beaver / BeTheme — cleanup is only offered when the matching theme is **not** the active template or stylesheet. Postmeta deletion remains blocked while the target is active.
+
 ## [2.3.2] — 2026
 
 ### Added
@@ -88,7 +99,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Initial public release: multi-builder detection, safe postmeta and allowlisted `wp_options` cleanup, WP-CLI commands (`counts`, `delete`, `option-counts`, `options-delete`).
 - Core stacks: Elementor, Divi / Extra, Beaver Builder, Bricks, SeedProd, Hello Elementor, BeTheme / Muffin, Astra.
 
-[Unreleased]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.3.2...HEAD
+[Unreleased]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.3.3...HEAD
+[2.3.3]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.3
 [2.3.2]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.2
 [2.3.1]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.1
 [2.3.0]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.0
