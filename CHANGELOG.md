@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.3.1] — 2026
+
+### Changed
+
+- **Summary** is now the default tab when opening Tools → Builder Meta Cleanup, and is the first entry in the tab navigation. The old default (*Themes & frameworks*) is now the second tab.
+- **Per-stack breakdown** table on the Summary tab now exposes one checkbox per detected stack (all checked by default), plus a master **Include / Select-all** checkbox in the header column. Unchecked stacks are skipped server-side. The bulk submit button rewrites its own label as you toggle stacks (e.g. "Delete 12,345 rows for 3 selected stack(s)") and disables itself when zero stacks are selected.
+
+### Added
+
+- `Builder_Meta_Cleanup_Service::delete_all_for_inactive( ?array $only_target_ids = null )` — passing a target-id allowlist limits the bulk cleanup to those stacks. Calling with `null` (default) preserves the existing "delete every inactive target" behavior, which keeps the WP-CLI `clean-orphans` command and any external callers unchanged.
+- Return shape of `delete_all_for_inactive()` gains a `targets_skipped_unselected` count for visibility.
+
+### Safety
+
+- The admin POST handler validates posted target ids against the live registry and re-runs `is_target_active()` per target before deleting, so the per-stack checkboxes can only narrow the bulk action — they can never widen it or bypass the active-stack guard.
+
 ## [2.3.0] — 2026
 
 ### Added
@@ -66,7 +82,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Initial public release: multi-builder detection, safe postmeta and allowlisted `wp_options` cleanup, WP-CLI commands (`counts`, `delete`, `option-counts`, `options-delete`).
 - Core stacks: Elementor, Divi / Extra, Beaver Builder, Bricks, SeedProd, Hello Elementor, BeTheme / Muffin, Astra.
 
-[Unreleased]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.3.1...HEAD
+[2.3.1]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.1
 [2.3.0]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.0
 [2.2.1]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.2.1
 [2.2.0]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.2.0

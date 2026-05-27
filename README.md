@@ -5,14 +5,14 @@ Detect major page builders and companion plugins, show install/active state, and
 ## Compatibility
 
 - **Tested up to:** WordPress 6.7  
-- **Stable tag:** 2.3.0  
+- **Stable tag:** 2.3.1  
 - **License:** GPLv2 or later
 
 Full WordPress.org–style readme (headers, changelog, FAQ): see **readme.txt** in this repository.
 
 Repository: [github.com/oduppinsjr/wp-builder-meta-cleanup](https://github.com/oduppinsjr/wp-builder-meta-cleanup)
 
-The admin screen uses **tabs**: Themes & frameworks, Page builders, Plugins (preset targets for common plugins that leave cruft), **Summary** (site-wide breakdown with one-click full cleanup of every inactive stack, gated by a backup-confirmation checkbox), and About & tools (updates / WP-CLI). Each cleanup table also exposes a master **Select all** checkbox in its header row.
+The admin screen uses **tabs**, starting on **Summary** (default landing tab — site-wide breakdown of every cleanable row across inactive stacks, with per-stack opt-out checkboxes pre-ticked, a backup-confirmation gate, and a one-click full cleanup whose button label updates live as you toggle stacks). Followed by Themes & frameworks, Page builders, Plugins (preset targets for common plugins that leave cruft), and About & tools (updates / WP-CLI). Each cleanup table also exposes a master **Select all** checkbox in its header row.
 
 ## Repository documentation
 

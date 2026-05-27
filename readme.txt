@@ -4,7 +4,7 @@ Donate link: https://duppinstech.com
 Tags: elementor, divi, database, postmeta, cleanup
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -42,6 +42,10 @@ So you cannot delete meta that the live theme or plugin still needs.
 
 == Changelog ==
 
+= 2.3.1 =
+* Summary tab is now the default landing tab and the first entry in the navigation.
+* Per-stack breakdown table now has a checkbox per stack (all checked by default) plus a master Select-all in the header, so you can opt out of individual stacks before running the bulk cleanup. The submit button label and enabled state update live as you toggle stacks.
+
 = 2.3.0 =
 * New **Summary** tab with site-wide breakdown of every orphaned postmeta / option row across inactive stacks, a backup-confirmation gate, and a one-click "Delete N rows" full cleanup.
 * Each cleanup table (postmeta, exact options, pattern options) on the Themes & frameworks, Page builders, and Plugins tabs now has a master "Select all" checkbox with indeterminate state.
@@ -66,6 +70,9 @@ So you cannot delete meta that the live theme or plugin still needs.
 * Maintenance and documentation updates for plugin directory checks.
 
 == Upgrade Notice ==
+
+= 2.3.1 =
+Summary tab is now the default and supports per-stack opt-out checkboxes so you can exclude individual stacks before running a full cleanup.
 
 = 2.3.0 =
 Adds a Summary tab with a one-click full cleanup for all inactive stacks, master Select-all on every cleanup table, and matching WP-CLI commands.

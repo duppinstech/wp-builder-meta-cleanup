@@ -706,20 +706,35 @@ final class Builder_Meta_Cleanup_Service {
 	/**
 	 * Delete postmeta + exact options + options_like patterns for every inactive target.
 	 *
-	 * @return array{meta_rows: int, option_rows: int, options_like_rows: int, targets_processed: int, targets_skipped_active: int}
+	 * @param array<int, string>|null $only_target_ids Optional allowlist of target ids; when provided, every other target is skipped. Pass null (default) to clean every inactive target.
+	 * @return array{meta_rows: int, option_rows: int, options_like_rows: int, targets_processed: int, targets_skipped_active: int, targets_skipped_unselected: int}
 	 */
-	public static function delete_all_for_inactive(): array {
+	public static function delete_all_for_inactive( ?array $only_target_ids = null ): array {
 		$stats = array(
-			'meta_rows'              => 0,
-			'option_rows'            => 0,
-			'options_like_rows'      => 0,
-			'targets_processed'      => 0,
-			'targets_skipped_active' => 0,
+			'meta_rows'                  => 0,
+			'option_rows'                => 0,
+			'options_like_rows'          => 0,
+			'targets_processed'          => 0,
+			'targets_skipped_active'     => 0,
+			'targets_skipped_unselected' => 0,
 		);
+
+		$allow = null;
+		if ( null !== $only_target_ids ) {
+			$allow = array();
+			foreach ( $only_target_ids as $allowed_tid ) {
+				$allow[ (string) $allowed_tid ] = true;
+			}
+		}
 
 		foreach ( self::get_targets() as $tid => $def ) {
 			if ( self::is_target_active( (string) $tid ) ) {
 				$stats['targets_skipped_active']++;
+				continue;
+			}
+
+			if ( null !== $allow && empty( $allow[ (string) $tid ] ) ) {
+				$stats['targets_skipped_unselected']++;
 				continue;
 			}
 

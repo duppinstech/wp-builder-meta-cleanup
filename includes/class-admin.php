@@ -179,16 +179,26 @@ final class Builder_Meta_Cleanup_Admin {
 				if ( ! $confirmed ) {
 					$messages[] = __( 'Full cleanup not run: the database backup confirmation was not checked.', 'builder-meta-cleanup' );
 				} else {
-					$stats = Builder_Meta_Cleanup_Service::delete_all_for_inactive();
-					$messages[] = sprintf(
-						/* translators: 1: postmeta rows, 2: exact option rows, 3: pattern option rows, 4: targets processed, 5: stacks skipped because active */
-						__( 'Full cleanup complete — removed %1$d postmeta rows, %2$d exact option rows, and %3$d pattern-matched option rows across %4$d inactive stacks (skipped %5$d active stacks).', 'builder-meta-cleanup' ),
-						(int) $stats['meta_rows'],
-						(int) $stats['option_rows'],
-						(int) $stats['options_like_rows'],
-						(int) $stats['targets_processed'],
-						(int) $stats['targets_skipped_active']
-					);
+					$only_ids = null;
+					if ( isset( $_POST['summary_targets'] ) && is_array( $_POST['summary_targets'] ) ) {
+						$posted_ids = array_map( 'sanitize_key', wp_unslash( $_POST['summary_targets'] ) );
+						$only_ids   = array_values( array_intersect( $posted_ids, array_keys( $targets ) ) );
+					}
+					if ( is_array( $only_ids ) && empty( $only_ids ) ) {
+						$messages[] = __( 'Full cleanup not run: no stacks were selected.', 'builder-meta-cleanup' );
+					} else {
+						$stats = Builder_Meta_Cleanup_Service::delete_all_for_inactive( $only_ids );
+						$messages[] = sprintf(
+							/* translators: 1: postmeta rows, 2: exact option rows, 3: pattern option rows, 4: targets processed, 5: stacks skipped because active, 6: stacks skipped because unselected */
+							__( 'Full cleanup complete — removed %1$d postmeta rows, %2$d exact option rows, and %3$d pattern-matched option rows across %4$d inactive stacks (skipped %5$d active, %6$d unselected).', 'builder-meta-cleanup' ),
+							(int) $stats['meta_rows'],
+							(int) $stats['option_rows'],
+							(int) $stats['options_like_rows'],
+							(int) $stats['targets_processed'],
+							(int) $stats['targets_skipped_active'],
+							(int) $stats['targets_skipped_unselected']
+						);
+					}
 				}
 			}
 
@@ -246,9 +256,9 @@ final class Builder_Meta_Cleanup_Admin {
 			<?php endif; ?>
 
 			<?php
-			$bmc_tab = isset( $_GET['bmc_tab'] ) ? sanitize_key( wp_unslash( $_GET['bmc_tab'] ) ) : self::TAB_THEME;
-			if ( ! in_array( $bmc_tab, array( self::TAB_THEME, self::TAB_BUILDER, self::TAB_PLUGIN, self::TAB_SUMMARY, self::TAB_ABOUT ), true ) ) {
-				$bmc_tab = self::TAB_THEME;
+			$bmc_tab = isset( $_GET['bmc_tab'] ) ? sanitize_key( wp_unslash( $_GET['bmc_tab'] ) ) : self::TAB_SUMMARY;
+			if ( ! in_array( $bmc_tab, array( self::TAB_SUMMARY, self::TAB_THEME, self::TAB_BUILDER, self::TAB_PLUGIN, self::TAB_ABOUT ), true ) ) {
+				$bmc_tab = self::TAB_SUMMARY;
 			}
 			$tab_slice     = self::targets_for_ui_tab( $targets, $bmc_tab );
 			$form_slug     = str_replace( '_', '-', $bmc_tab );
@@ -262,10 +272,10 @@ final class Builder_Meta_Cleanup_Admin {
 			);
 			?>
 			<h2 class="nav-tab-wrapper bmc-nav-tabs" style="margin:1em 0 0;padding-top:0;border-bottom:1px solid #c3c4c7;">
+				<a href="<?php echo esc_url( self::cleanup_tab_url( self::TAB_SUMMARY ) ); ?>" class="nav-tab <?php echo self::TAB_SUMMARY === $bmc_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Summary', 'builder-meta-cleanup' ); ?></a>
 				<a href="<?php echo esc_url( self::cleanup_tab_url( self::TAB_THEME ) ); ?>" class="nav-tab <?php echo self::TAB_THEME === $bmc_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Themes & frameworks', 'builder-meta-cleanup' ); ?></a>
 				<a href="<?php echo esc_url( self::cleanup_tab_url( self::TAB_BUILDER ) ); ?>" class="nav-tab <?php echo self::TAB_BUILDER === $bmc_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Page builders', 'builder-meta-cleanup' ); ?></a>
 				<a href="<?php echo esc_url( self::cleanup_tab_url( self::TAB_PLUGIN ) ); ?>" class="nav-tab <?php echo self::TAB_PLUGIN === $bmc_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Plugins', 'builder-meta-cleanup' ); ?></a>
-				<a href="<?php echo esc_url( self::cleanup_tab_url( self::TAB_SUMMARY ) ); ?>" class="nav-tab <?php echo self::TAB_SUMMARY === $bmc_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Summary', 'builder-meta-cleanup' ); ?></a>
 				<a href="<?php echo esc_url( self::cleanup_tab_url( self::TAB_ABOUT ) ); ?>" class="nav-tab <?php echo self::TAB_ABOUT === $bmc_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'About & tools', 'builder-meta-cleanup' ); ?></a>
 			</h2>
 
@@ -414,6 +424,12 @@ wp builder-meta options-like-delete --target=premium_addons_elementor --pattern=
 					<table class="widefat striped" style="max-width:1100px">
 						<thead>
 							<tr>
+								<th style="width:140px">
+									<label class="bmc-select-all-label">
+										<input type="checkbox" class="bmc-select-all" data-target-form="bmc-form-summary" checked />
+										<?php esc_html_e( 'Include', 'builder-meta-cleanup' ); ?>
+									</label>
+								</th>
 								<th><?php esc_html_e( 'Stack', 'builder-meta-cleanup' ); ?></th>
 								<th><?php esc_html_e( 'Tab', 'builder-meta-cleanup' ); ?></th>
 								<th><?php esc_html_e( 'Postmeta', 'builder-meta-cleanup' ); ?></th>
@@ -438,6 +454,20 @@ wp builder-meta options-like-delete --target=premium_addons_elementor --pattern=
 							?>
 							<tr>
 								<td>
+									<label>
+										<input
+											type="checkbox"
+											class="bmc-summary-target"
+											name="summary_targets[]"
+											form="bmc-form-summary"
+											value="<?php echo esc_attr( (string) $tid ); ?>"
+											data-total-rows="<?php echo esc_attr( (string) (int) $row['total_rows'] ); ?>"
+											checked
+										/>
+										<?php esc_html_e( 'Include', 'builder-meta-cleanup' ); ?>
+									</label>
+								</td>
+								<td>
 									<strong><?php echo esc_html( $row['label'] ); ?></strong>
 									<div class="bmc-meta-detail"><code><?php echo esc_html( (string) $tid ); ?></code></div>
 								</td>
@@ -455,6 +485,9 @@ wp builder-meta options-like-delete --target=premium_addons_elementor --pattern=
 						<?php endforeach; ?>
 						</tbody>
 					</table>
+					<p class="description" style="margin-top:.5em;max-width:960px">
+						<?php esc_html_e( 'Every detected stack is pre-selected. Uncheck any rows you do not want to clean — only the checked stacks will be touched when you submit.', 'builder-meta-cleanup' ); ?>
+					</p>
 				<?php endif; ?>
 
 				<h3 style="margin-top:2em"><?php esc_html_e( 'Run full cleanup', 'builder-meta-cleanup' ); ?></h3>
@@ -481,11 +514,13 @@ wp builder-meta options-like-delete --target=premium_addons_elementor --pattern=
 							'submit_summary',
 							false,
 							array(
-								'id'             => 'bmc-summary-submit',
-								'disabled'       => true,
-								'data-bmc-empty' => '0',
-								'style'          => 'background:#b32d2e;border-color:#b32d2e;text-shadow:none',
-								'onclick'        => "return confirm('" . esc_js( __( 'Delete every postmeta and option row listed in the summary for ALL inactive stacks? This cannot be undone.', 'builder-meta-cleanup' ) ) . "');",
+								'id'                 => 'bmc-summary-submit',
+								'disabled'           => true,
+								'data-bmc-empty'     => '0',
+								'data-label-rows'    => __( 'Delete {count} rows for {stacks} selected stack(s)', 'builder-meta-cleanup' ),
+								'data-label-none'    => __( 'No stacks selected', 'builder-meta-cleanup' ),
+								'style'              => 'background:#b32d2e;border-color:#b32d2e;text-shadow:none',
+								'onclick'            => "return confirm('" . esc_js( __( 'Delete every postmeta and option row for the selected inactive stacks? This cannot be undone.', 'builder-meta-cleanup' ) ) . "');",
 							)
 						);
 					} else {
@@ -807,10 +842,43 @@ wp builder-meta options-like-delete --target=premium_addons_elementor --pattern=
 				var submit = doc.getElementById('bmc-summary-submit');
 				if (backup && submit) {
 					var initiallyEmpty = submit.getAttribute('data-bmc-empty') === '1';
-					submit.disabled = true;
-					backup.addEventListener('change', function () {
-						submit.disabled = initiallyEmpty || !backup.checked;
-					});
+					var labelTemplate  = submit.getAttribute('data-label-rows') || '';
+					var labelNone      = submit.getAttribute('data-label-none') || '';
+					var targets        = doc.querySelectorAll('input.bmc-summary-target');
+					var formatter      = (typeof Intl !== 'undefined' && Intl.NumberFormat) ? new Intl.NumberFormat() : null;
+					function fmt(n) {
+						return formatter ? formatter.format(n) : String(n);
+					}
+					function refresh() {
+						if (initiallyEmpty) {
+							submit.disabled = true;
+							return;
+						}
+						var rowCount   = 0;
+						var stackCount = 0;
+						for (var i = 0; i < targets.length; i++) {
+							if (targets[i].checked) {
+								stackCount++;
+								rowCount += parseInt(targets[i].getAttribute('data-total-rows') || '0', 10) || 0;
+							}
+						}
+						if (stackCount === 0) {
+							if (labelNone) {
+								submit.value = labelNone;
+							}
+							submit.disabled = true;
+						} else {
+							if (labelTemplate) {
+								submit.value = labelTemplate.replace('{count}', fmt(rowCount)).replace('{stacks}', fmt(stackCount));
+							}
+							submit.disabled = !backup.checked;
+						}
+					}
+					backup.addEventListener('change', refresh);
+					for (var t = 0; t < targets.length; t++) {
+						targets[t].addEventListener('change', refresh);
+					}
+					refresh();
 				}
 			})();
 			</script>
