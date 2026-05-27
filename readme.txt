@@ -4,7 +4,7 @@ Donate link: https://duppinstech.com
 Tags: elementor, divi, database, postmeta, cleanup
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -42,6 +42,9 @@ So you cannot delete meta that the live theme or plugin still needs.
 
 == Changelog ==
 
+= 2.3.2 =
+* New preset plugin target: **Unlimited Elements for Elementor** — exact option `addon_library_catalog` (autoloaded addon catalog cache, often 100KB+) plus `wp_options` LIKE patterns `addon_library_%` and `unlimited_elements_%`. Cleanup is gated on the plugin being inactive.
+
 = 2.3.1 =
 * Summary tab is now the default landing tab and the first entry in the navigation.
 * Per-stack breakdown table now has a checkbox per stack (all checked by default) plus a master Select-all in the header, so you can opt out of individual stacks before running the bulk cleanup. The submit button label and enabled state update live as you toggle stacks.
@@ -70,6 +73,9 @@ So you cannot delete meta that the live theme or plugin still needs.
 * Maintenance and documentation updates for plugin directory checks.
 
 == Upgrade Notice ==
+
+= 2.3.2 =
+Adds Unlimited Elements for Elementor as a preset target so its addon_library_catalog cache and related rows can be cleaned when the plugin is inactive.
 
 = 2.3.1 =
 Summary tab is now the default and supports per-stack opt-out checkboxes so you can exclude individual stacks before running a full cleanup.

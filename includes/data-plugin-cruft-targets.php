@@ -340,6 +340,28 @@ return array(
 			),
 		),
 	),
+	'unlimited_elements_elementor' => array(
+		'label'        => __( 'Unlimited Elements for Elementor', 'builder-meta-cleanup' ),
+		'ui_tab'       => 'plugin',
+		'plugin_paths' => array(
+			'unlimited-elements-for-elementor/unlimited_elements.php',
+			'unlimited-elements-for-elementor-premium/unlimited_elements.php',
+		),
+		'meta'         => array(),
+		'options'      => array(
+			'addon_library_catalog' => __( 'Unlimited Elements — addon catalog cache (addon_library_catalog)', 'builder-meta-cleanup' ),
+		),
+		'options_like' => array(
+			'addon_library' => array(
+				'label'       => __( 'wp_options.option_name LIKE addon_library_% (catalog + lasttime + version caches)', 'builder-meta-cleanup' ),
+				'like_prefix' => 'addon_library_',
+			),
+			'ue_settings'   => array(
+				'label'       => __( 'wp_options.option_name LIKE unlimited_elements_% (plugin settings)', 'builder-meta-cleanup' ),
+				'like_prefix' => 'unlimited_elements_',
+			),
+		),
+	),
 	'smush'                  => array(
 		'label'        => __( 'Smush', 'builder-meta-cleanup' ),
 		'ui_tab'       => 'plugin',

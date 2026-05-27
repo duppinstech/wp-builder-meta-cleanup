@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.3.2] — 2026
+
+### Added
+
+- New preset plugin target: **Unlimited Elements for Elementor** (`unlimited-elements-for-elementor/unlimited_elements.php` and the premium variant). Includes exact option `addon_library_catalog` (the autoloaded addon catalog cache, frequently 100KB+) plus `wp_options` LIKE patterns `addon_library_%` (catalog + lasttime + version caches) and `unlimited_elements_%` (plugin settings). Cleanup is gated on the plugin being inactive, consistent with every other plugin target.
+
 ## [2.3.1] — 2026
 
 ### Changed
@@ -82,7 +88,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Initial public release: multi-builder detection, safe postmeta and allowlisted `wp_options` cleanup, WP-CLI commands (`counts`, `delete`, `option-counts`, `options-delete`).
 - Core stacks: Elementor, Divi / Extra, Beaver Builder, Bricks, SeedProd, Hello Elementor, BeTheme / Muffin, Astra.
 
-[Unreleased]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.3.1...HEAD
+[Unreleased]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.3.2...HEAD
+[2.3.2]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.2
 [2.3.1]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.1
 [2.3.0]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.0
 [2.2.1]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.2.1

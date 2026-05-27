@@ -5,7 +5,7 @@ Detect major page builders and companion plugins, show install/active state, and
 ## Compatibility
 
 - **Tested up to:** WordPress 6.7  
-- **Stable tag:** 2.3.1  
+- **Stable tag:** 2.3.2  
 - **License:** GPLv2 or later
 
 Full WordPress.org–style readme (headers, changelog, FAQ): see **readme.txt** in this repository.
