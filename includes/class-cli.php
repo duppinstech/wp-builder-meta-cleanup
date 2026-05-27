@@ -41,6 +41,12 @@ final class Builder_Meta_Cleanup_CLI {
 			case 'options-like-delete':
 				self::cmd_options_like_delete( $assoc_args );
 				return;
+			case 'summary':
+				self::cmd_summary();
+				return;
+			case 'clean-orphans':
+				self::cmd_clean_orphans( $assoc_args );
+				return;
 			default:
 				self::usage();
 		}
@@ -52,6 +58,8 @@ final class Builder_Meta_Cleanup_CLI {
 		\WP_CLI::log( 'wp builder-meta option-counts' );
 		\WP_CLI::log( 'wp builder-meta options-delete --option=et_divi [--yes] [--dry-run]' );
 		\WP_CLI::log( 'wp builder-meta options-like-delete --target=fusion [--pattern=fs_options] [--yes] [--dry-run]' );
+		\WP_CLI::log( 'wp builder-meta summary' );
+		\WP_CLI::log( 'wp builder-meta clean-orphans [--dry-run] [--yes]' );
 	}
 
 	private static function cmd_counts(): void {
@@ -257,5 +265,81 @@ final class Builder_Meta_Cleanup_CLI {
 		if ( ! $dry ) {
 			Builder_Meta_Cleanup_Service::flush_caches();
 		}
+	}
+
+	private static function cmd_summary(): void {
+		$summary = Builder_Meta_Cleanup_Service::summary_for_inactive();
+		$totals  = $summary['totals'];
+
+		if ( empty( $summary['targets'] ) ) {
+			\WP_CLI::success( 'No orphaned data detected for any inactive stack.' );
+			return;
+		}
+
+		\WP_CLI::log( '--- Inactive stacks with orphaned data ---' );
+		foreach ( $summary['targets'] as $tid => $row ) {
+			$pat_rows = 0;
+			foreach ( $row['options_like'] as $pat ) {
+				$pat_rows += (int) $pat['rows'];
+			}
+			\WP_CLI::log(
+				sprintf(
+					'%-30s | tab=%-13s | meta=%6d | options=%2d | pattern=%6d | total=%6d',
+					$row['label'],
+					$row['tab'],
+					(int) $row['meta_rows'],
+					count( $row['options'] ),
+					$pat_rows,
+					(int) $row['total_rows']
+				)
+			);
+		}
+
+		\WP_CLI::log( '' );
+		\WP_CLI::log(
+			sprintf(
+				'Totals: postmeta=%d, exact-option rows=%d, pattern-option rows=%d, grand=%d (active stacks skipped: %d)',
+				(int) $totals['meta_rows'],
+				(int) $totals['option_rows'],
+				(int) $totals['options_like_rows'],
+				(int) $totals['grand_total_rows'],
+				(int) $totals['active_stacks']
+			)
+		);
+	}
+
+	/**
+	 * @param array<string, mixed> $assoc_args
+	 */
+	private static function cmd_clean_orphans( array $assoc_args ): void {
+		$dry     = \WP_CLI\Utils\get_flag_value( $assoc_args, 'dry-run', false );
+		$summary = Builder_Meta_Cleanup_Service::summary_for_inactive();
+		$totals  = $summary['totals'];
+
+		self::cmd_summary();
+
+		if ( $dry ) {
+			\WP_CLI::log( 'Dry run — nothing was deleted.' );
+			return;
+		}
+
+		if ( (int) $totals['grand_total_rows'] < 1 ) {
+			\WP_CLI::success( 'Nothing to delete.' );
+			return;
+		}
+
+		\WP_CLI::confirm( sprintf( 'Delete %d rows total (postmeta + options) for all inactive stacks? This cannot be undone.', (int) $totals['grand_total_rows'] ) );
+
+		$stats = Builder_Meta_Cleanup_Service::delete_all_for_inactive();
+		\WP_CLI::success(
+			sprintf(
+				'Removed postmeta=%d, exact-option rows=%d, pattern-option rows=%d across %d inactive stacks (skipped %d active).',
+				(int) $stats['meta_rows'],
+				(int) $stats['option_rows'],
+				(int) $stats['options_like_rows'],
+				(int) $stats['targets_processed'],
+				(int) $stats['targets_skipped_active']
+			)
+		);
 	}
 }

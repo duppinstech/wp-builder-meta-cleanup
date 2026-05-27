@@ -5,14 +5,14 @@ Detect major page builders and companion plugins, show install/active state, and
 ## Compatibility
 
 - **Tested up to:** WordPress 6.7  
-- **Stable tag:** 2.2.1  
+- **Stable tag:** 2.3.0  
 - **License:** GPLv2 or later
 
 Full WordPress.org–style readme (headers, changelog, FAQ): see **readme.txt** in this repository.
 
 Repository: [github.com/oduppinsjr/wp-builder-meta-cleanup](https://github.com/oduppinsjr/wp-builder-meta-cleanup)
 
-The admin screen uses **tabs**: Themes & frameworks, Page builders, Plugins (preset targets for common plugins that leave cruft), and About & tools (updates / WP-CLI).
+The admin screen uses **tabs**: Themes & frameworks, Page builders, Plugins (preset targets for common plugins that leave cruft), **Summary** (site-wide breakdown with one-click full cleanup of every inactive stack, gated by a backup-confirmation checkbox), and About & tools (updates / WP-CLI). Each cleanup table also exposes a master **Select all** checkbox in its header row.
 
 ## Repository documentation
 
@@ -74,6 +74,9 @@ wp builder-meta delete --target=astra --yes
 wp builder-meta option-counts
 wp builder-meta options-delete --option=astra-settings --yes
 wp builder-meta options-like-delete --target=premium_addons_elementor --pattern=pa_options --yes
+wp builder-meta summary
+wp builder-meta clean-orphans --dry-run
+wp builder-meta clean-orphans --yes
 ```
 
 ## Extend

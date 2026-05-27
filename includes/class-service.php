@@ -615,4 +615,147 @@ final class Builder_Meta_Cleanup_Service {
 		}
 		return $total;
 	}
+
+	/**
+	 * Aggregate everything cleanable for stacks/plugins that are not currently active.
+	 *
+	 * @return array{
+	 *   targets: array<string, array{label: string, tab: string, meta_rows: int, options: array<string, int>, options_like: array<string, array{label: string, rows: int}>, options_bytes: int, total_rows: int}>,
+	 *   totals: array{meta_rows: int, option_rows: int, options_like_rows: int, options_bytes: int, grand_total_rows: int, active_stacks: int}
+	 * }
+	 */
+	public static function summary_for_inactive(): array {
+		$targets_out = array();
+		$totals      = array(
+			'meta_rows'         => 0,
+			'option_rows'       => 0,
+			'options_like_rows' => 0,
+			'options_bytes'     => 0,
+			'grand_total_rows'  => 0,
+			'active_stacks'     => 0,
+		);
+
+		foreach ( self::get_targets() as $tid => $def ) {
+			if ( self::is_target_active( $tid ) ) {
+				$totals['active_stacks']++;
+				continue;
+			}
+
+			$meta_rows = self::count_target_meta( $tid );
+
+			$options_present = array();
+			if ( ! empty( $def['options'] ) ) {
+				foreach ( $def['options'] as $opt_name => $opt_label ) {
+					$info = self::option_row_info( (string) $opt_name );
+					if ( $info['exists'] ) {
+						$options_present[ (string) $opt_name ] = (int) $info['bytes'];
+					}
+				}
+			}
+
+			$options_like_rows  = array();
+			$options_like_total = 0;
+			if ( ! empty( $def['options_like'] ) ) {
+				foreach ( $def['options_like'] as $pid => $pat ) {
+					$rows = self::count_target_options_like_block( $tid, (string) $pid );
+					if ( $rows < 1 ) {
+						continue;
+					}
+					$options_like_rows[ (string) $pid ] = array(
+						'label' => isset( $pat['label'] ) ? (string) $pat['label'] : (string) $pid,
+						'rows'  => $rows,
+					);
+					$options_like_total += $rows;
+				}
+			}
+
+			$option_bytes = 0;
+			foreach ( $options_present as $bytes ) {
+				$option_bytes += (int) $bytes;
+			}
+
+			$total_for_target = $meta_rows + count( $options_present ) + $options_like_total;
+			if ( $total_for_target < 1 ) {
+				continue;
+			}
+
+			$targets_out[ (string) $tid ] = array(
+				'label'         => isset( $def['label'] ) ? (string) $def['label'] : (string) $tid,
+				'tab'           => isset( $def['ui_tab'] ) ? (string) $def['ui_tab'] : 'page_builder',
+				'meta_rows'     => $meta_rows,
+				'options'       => $options_present,
+				'options_like'  => $options_like_rows,
+				'options_bytes' => $option_bytes,
+				'total_rows'    => $total_for_target,
+			);
+
+			$totals['meta_rows']         += $meta_rows;
+			$totals['option_rows']       += count( $options_present );
+			$totals['options_like_rows'] += $options_like_total;
+			$totals['options_bytes']     += $option_bytes;
+		}
+
+		$totals['grand_total_rows'] = $totals['meta_rows'] + $totals['option_rows'] + $totals['options_like_rows'];
+
+		return array(
+			'targets' => $targets_out,
+			'totals'  => $totals,
+		);
+	}
+
+	/**
+	 * Delete postmeta + exact options + options_like patterns for every inactive target.
+	 *
+	 * @return array{meta_rows: int, option_rows: int, options_like_rows: int, targets_processed: int, targets_skipped_active: int}
+	 */
+	public static function delete_all_for_inactive(): array {
+		$stats = array(
+			'meta_rows'              => 0,
+			'option_rows'            => 0,
+			'options_like_rows'      => 0,
+			'targets_processed'      => 0,
+			'targets_skipped_active' => 0,
+		);
+
+		foreach ( self::get_targets() as $tid => $def ) {
+			if ( self::is_target_active( (string) $tid ) ) {
+				$stats['targets_skipped_active']++;
+				continue;
+			}
+
+			$touched = false;
+
+			$meta_removed = self::delete_target_meta( (string) $tid );
+			if ( $meta_removed > 0 ) {
+				$stats['meta_rows'] += $meta_removed;
+				$touched             = true;
+			}
+
+			if ( ! empty( $def['options'] ) ) {
+				foreach ( $def['options'] as $opt_name => $opt_label ) {
+					if ( self::delete_option_by_name( (string) $opt_name ) ) {
+						$stats['option_rows']++;
+						$touched = true;
+					}
+				}
+			}
+
+			if ( ! empty( $def['options_like'] ) ) {
+				foreach ( $def['options_like'] as $pid => $pat ) {
+					$removed = self::delete_target_options_like_block( (string) $tid, (string) $pid );
+					if ( $removed > 0 ) {
+						$stats['options_like_rows'] += $removed;
+						$touched                     = true;
+					}
+				}
+			}
+
+			if ( $touched ) {
+				$stats['targets_processed']++;
+			}
+		}
+
+		self::flush_caches();
+		return $stats;
+	}
 }
