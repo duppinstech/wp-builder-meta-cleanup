@@ -5,7 +5,7 @@ Detect major page builders and companion plugins, show install/active state, and
 ## Compatibility
 
 - **Tested up to:** WordPress 6.7  
-- **Stable tag:** 2.2.0  
+- **Stable tag:** 2.2.1  
 - **License:** GPLv2 or later
 
 Full WordPress.org–style readme (headers, changelog, FAQ): see **readme.txt** in this repository.
@@ -37,7 +37,7 @@ The admin screen uses **tabs**: Themes & frameworks, Page builders, Plugins (pre
 | SeedProd | `_seedprod_%`, `seedprod_%` |
 | Hello Elementor | `_hello_%` |
 | BeTheme / Muffin | `mfn-%` |
-| Astra | `ast-%`, `_astra_%` |
+| Astra | postmeta: `ast-%`, `_astra_%`; options: exact `astra-settings`, `theme_mods_astra`, `astra_docs_data`, plus `wp_options.option_name LIKE astra_%` and `LIKE astra-%` (covers Astra Sites / Starter Templates, Astra Pro, Astra Addons) |
 | Fusion / Avada | `_fusion%` plus `wp_options` names `FS_%` |
 | Premium Addons for Elementor | `wp_options` names `PA_%` |
 | Essential Addons for Elementor | `wp_options` names `eael_%` |
@@ -47,7 +47,9 @@ Companion plugins are gated on **their** plugin being active; Elementor may stay
 
 Fusion / Avada also supports deleting `wp_options` rows whose names match **`FS_%`** (ThemeFusion option fragments).
 
-Astra also registers some keys **without** the `ast-` prefix (for example `site-sidebar-layout`). Those are **not** removed by this plugin.
+Astra also registers some postmeta keys **without** the `ast-` prefix (for example `site-sidebar-layout`). Those are **not** removed by this plugin.
+
+Astra `wp_options` rows that begin with `astra_` or `astra-` (for example `astra_docs_data`, `astra_sites_*`, `astra-addon-auto-version`) are covered by the prefix patterns and are only offered for deletion when the Astra theme is **inactive**.
 
 ## Safety
 

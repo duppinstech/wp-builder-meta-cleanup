@@ -4,7 +4,7 @@ Donate link: https://duppinstech.com
 Tags: elementor, divi, database, postmeta, cleanup
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -42,6 +42,9 @@ So you cannot delete meta that the live theme or plugin still needs.
 
 == Changelog ==
 
+= 2.2.1 =
+* Astra: cover `astra_docs_data` plus `astra_%` and `astra-%` option families (Astra Sites / Starter Templates, Astra Pro, Astra Addons). Still gated on Astra theme being inactive.
+
 = 2.2.0 =
 * Admin UI: tabs — Themes & frameworks, Page builders, Plugins, About & tools (updates / notes / WP-CLI).
 * Twenty preset “cruft” plugin targets (Slider Revolution, LayerSlider, WPBakery, Yoast SEO, AIOSEO, W3 TC, Wordfence, UpdraftPlus, WP Rocket, Jetpack, NextGEN, Gravity Forms, CF7, WPML, Polylang, Redirection, Really Simple SSL, TablePress, WPForms, Smush) plus Magic Page — via includes/data-plugin-cruft-targets.php.
@@ -58,6 +61,9 @@ So you cannot delete meta that the live theme or plugin still needs.
 * Maintenance and documentation updates for plugin directory checks.
 
 == Upgrade Notice ==
+
+= 2.2.1 =
+Astra cleanup now covers `astra_docs_data` and the broader `astra_%` / `astra-%` option families.
 
 = 2.2.0 =
 Tabbed Tools UI and preset targets for 20+ popular plugins plus Magic Page (see changelog).

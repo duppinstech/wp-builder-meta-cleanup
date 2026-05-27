@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.2.1] — 2026
+
+### Added
+
+- Astra: exact option `astra_docs_data` (cached help/docs payload) added to the allowlist.
+- Astra: `options_like` patterns `astra_%` and `astra-%` covering Astra Sites / Starter Templates, Astra Pro, Astra Addons, and addon flag rows. Deletion is still blocked while the Astra theme is the active template/stylesheet.
+
 ## [2.2.0] — 2026
 
 ### Added
@@ -46,7 +53,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Initial public release: multi-builder detection, safe postmeta and allowlisted `wp_options` cleanup, WP-CLI commands (`counts`, `delete`, `option-counts`, `options-delete`).
 - Core stacks: Elementor, Divi / Extra, Beaver Builder, Bricks, SeedProd, Hello Elementor, BeTheme / Muffin, Astra.
 
-[Unreleased]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.2.0...HEAD
+[Unreleased]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.2.1...HEAD
+[2.2.1]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.2.1
 [2.2.0]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.2.0
 [2.1.0]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.1.0
 [2.0.1]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.0.1

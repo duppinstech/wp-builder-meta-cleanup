@@ -141,6 +141,17 @@ final class Builder_Meta_Cleanup_Service {
 				'options' => array(
 					'astra-settings'   => __( 'Astra — Theme options (astra-settings)', 'builder-meta-cleanup' ),
 					'theme_mods_astra' => __( 'Astra — Customizer (theme_mods_astra)', 'builder-meta-cleanup' ),
+					'astra_docs_data'  => __( 'Astra — Cached help/docs payload (astra_docs_data)', 'builder-meta-cleanup' ),
+				),
+				'options_like' => array(
+					'astra_underscore' => array(
+						'label'       => __( 'wp_options.option_name LIKE astra_% (Astra, Astra Sites, Astra Pro / Addons)', 'builder-meta-cleanup' ),
+						'like_prefix' => 'astra_',
+					),
+					'astra_dash'       => array(
+						'label'       => __( 'wp_options.option_name LIKE astra-% (Astra theme + addon flags)', 'builder-meta-cleanup' ),
+						'like_prefix' => 'astra-',
+					),
 				),
 			),
 			'fusion'                   => array(
