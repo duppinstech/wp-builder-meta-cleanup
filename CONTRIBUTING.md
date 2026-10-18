@@ -34,3 +34,12 @@ Thank you for helping improve **Builder Meta Cleanup**. This document describes 
 ## Questions
 
 See [SUPPORT.md](SUPPORT.md) for where to ask questions versus report bugs.
+
+## Commit style
+
+Use an imperative subject line:
+
+- Releases follow the existing history: `Release vX.Y.Z: short summary`.
+- Other commits use a conventional type: `fix:`, `feat:`, `docs:`, `ci:`, or `chore:`.
+
+Keep one logical change per commit. Do not commit secrets, `.env` files, or zip builds.
