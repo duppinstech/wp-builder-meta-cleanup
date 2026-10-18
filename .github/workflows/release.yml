@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+          coverage: none
+
+      - name: Lint
+        run: php tests/lint.php
+
+      - name: Test
+        run: php tests/smoke.php
+
+      - name: Package
+        run: git archive --format=zip --prefix=builder-meta-cleanup/ -o builder-meta-cleanup.zip HEAD
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: builder-meta-cleanup.zip

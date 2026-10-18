@@ -106,3 +106,18 @@ gh release create v2.1.0 --title "v2.1.0" --notes-file - <<'EOF'
 Fusion / Avada, Elementor companion addons, pattern-based wp_options cleanup, WP-CLI options-like-delete.
 EOF
 ```
+
+## Local development
+
+No Composer or npm install. Requires PHP 7.4+ and WordPress 6.0+.
+
+Copy this directory to `wp-content/plugins/builder-meta-cleanup/`, then activate **Builder Meta Cleanup**. Use a disposable database: cleanup deletes rows. Admin screen: **Tools → Builder Meta Cleanup**.
+
+## Tests
+
+```bash
+php tests/lint.php
+php tests/smoke.php
+```
+
+`tests/lint.php` runs `php -l` on every PHP file. `tests/smoke.php` checks the plugin header. There is no WordPress test suite. After PHP checks, activate the plugin in a dev site and exercise the admin screen and any WP-CLI commands you changed.
