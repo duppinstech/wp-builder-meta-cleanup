@@ -4,7 +4,7 @@ _Shared, committed memory. Keep it factual and current. If the repo is public, s
 
 - **Product:** Builder Meta Cleanup, a WordPress plugin. Owner: Odell Duppins / Duppins Technology.
 - **Repo:** https://github.com/oduppinsjr/wp-builder-meta-cleanup (public)
-- **Current release:** v2.3.3 (2026-05-27)
+- **Current release:** v2.3.4 (2026-10-18)
 - **Distribution:** Default update source is GitHub Releases (`releases/latest`) via `includes/class-updater.php`. Optional WordPress.org through `plugins_api` when the source is `wordpress` or `both`. Directory publishing stays a maintainer step (`PLAN.md`).
 - **Key dependencies:** None. No `composer.json` and no `package.json`.
 - **Integrations:** GitHub REST `repos/{owner}/{repo}/releases/latest` with no token in the plugin. WordPress.org plugin information API when that update source is selected.

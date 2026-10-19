@@ -4,7 +4,7 @@ Donate link: https://duppinstech.com
 Tags: elementor, divi, database, postmeta, cleanup
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 2.3.3
+Stable tag: 2.3.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -42,6 +42,9 @@ So you cannot delete meta that the live theme or plugin still needs.
 
 == Changelog ==
 
+= 2.3.4 =
+* Maintenance release. Cleanup behavior is unchanged.
+
 = 2.3.3 =
 * New theme targets: **Impreza (UpSolution)** — exact `usof_options_Impreza`, `theme_mods_Impreza/impreza`, plus LIKE patterns `usof_%` and `us_%`, plus `us_%` / `_us_%` postmeta — and **OceanWP** — exact `theme_mods_oceanwp` plus LIKE patterns `ocean_%`, `oceanwp_%`, `oewt_%`, plus `ocean_%` / `_ocean_%` postmeta. Cleanup is gated on the matching theme being inactive.
 
@@ -76,6 +79,9 @@ So you cannot delete meta that the live theme or plugin still needs.
 * Maintenance and documentation updates for plugin directory checks.
 
 == Upgrade Notice ==
+
+= 2.3.4 =
+Maintenance release. Cleanup behavior is unchanged.
 
 = 2.3.3 =
 Adds Impreza (UpSolution) and OceanWP as theme targets, so their orphaned wp_options rows and postmeta can be swept when each theme is inactive.

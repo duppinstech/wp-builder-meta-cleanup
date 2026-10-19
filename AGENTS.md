@@ -11,7 +11,7 @@ WordPress plugin (PHP 7.4+, WordPress 6.0+). No Composer or npm. Repo map and re
 - **Floor:** PHP 7.4+, WordPress 6.0+. Tested up to WordPress 6.7 (`README.md`).
 - **License:** GPL-2.0-or-later.
 - **Repo:** https://github.com/oduppinsjr/wp-builder-meta-cleanup (public).
-- **Current version:** 2.3.3, declared in the plugin header and `BUILDER_META_CLEANUP_VERSION`.
+- **Current version:** 2.3.4, declared in the plugin header and `BUILDER_META_CLEANUP_VERSION`.
 - **Updater:** `includes/class-updater.php`. Default source is GitHub Releases (`releases/latest`). `wordpress` and `both` also call WordPress.org `plugins_api`. Option `builder_meta_cleanup_update_source` (default `github`).
 - **Dependencies:** none.
 - **Integrations:** unauthenticated GitHub Releases API; WordPress.org plugin information API when that source is selected.
