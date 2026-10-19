@@ -64,9 +64,9 @@ Copy the `builder-meta-cleanup` folder into `wp-content/plugins/`, then activate
 
 Admin screen: **Tools → Builder Meta Cleanup**.
 
-## Updates (GitHub vs WordPress.org)
+## Updates
 
-The plugin may declare an `Update URI` and include optional GitHub-based update logic. For WordPress.org distribution, follow directory guidelines for update handling.
+Updates come from GitHub Releases for `oduppinsjr/wp-builder-meta-cleanup`. The release asset is `wp-builder-meta-cleanup.zip`. `Update URI` in the plugin header keeps WordPress.org from replacing this plugin. Dashboard → Updates → Check again refreshes the updater cache.
 
 ## WP-CLI
 

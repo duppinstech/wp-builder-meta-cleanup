@@ -13,7 +13,7 @@ paths:
 - WordPress Coding Standards: spaces inside parentheses, Yoda conditions for literals; match the file's array syntax and indentation. Don't reformat lines you didn't change.
 - Prefix every global function, option, meta key, transient, hook and AJAX action with `builder_meta_cleanup_`. Text domain `builder-meta-cleanup` on every translatable string.
 - Docblock on every public method and every hook the plugin fires.
-- No namespace and no autoloader. `builder-meta-cleanup.php` requires each class. Classes are `final` and named `Builder_Meta_Cleanup_*`. `Builder_Meta_Cleanup_Admin`, `Builder_Meta_Cleanup_Updater`, and `Builder_Meta_Cleanup_CLI` each expose `init()` (CLI via `register()`) that only hooks WordPress. There is no field library and no global `builder_meta_cleanup_*` function. Registry meta keys and option names belong to the stacks being cleaned; they are not given this prefix.
+- No namespace and no autoloader. `builder-meta-cleanup.php` requires each class. Classes are named `Builder_Meta_Cleanup_*`. `Builder_Meta_Cleanup_Admin` and `Builder_Meta_Cleanup_CLI` are `final` and expose `init()` / `register()` that only hooks WordPress. `Builder_Meta_Cleanup_GitHub_Updater` is the shared updater standard and is booted from the main file; do not change its behavior in this repo. There is no field library and no global `builder_meta_cleanup_*` function. Registry meta keys and option names belong to the stacks being cleaned; they are not given this prefix.
 
 ## JavaScript
 - Data from PHP arrives through `wp_localize_script` or `wp_add_inline_script`; never inline secrets.

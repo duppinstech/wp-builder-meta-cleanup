@@ -54,3 +54,5 @@
 /OWNERSHIP.md export-ignore
 /CONTRIBUTING.md export-ignore
 /builder-meta-cleanup.zip export-ignore
+/wp-builder-meta-cleanup.zip export-ignore
+/release-notes.md export-ignore

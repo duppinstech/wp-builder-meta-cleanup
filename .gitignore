@@ -19,6 +19,7 @@ CLAUDE.local.md
 .env.*
 !.env.example
 /*.zip
+release-notes.md
 .phpunit.result.cache
 .claude/scheduled_tasks.lock
 Thumbs.db

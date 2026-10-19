@@ -24,3 +24,9 @@ jobs:
 
       - name: Test
         run: php tests/smoke.php
+
+      - name: Release notes for the current version
+        run: |
+          set -euo pipefail
+          version=$(sed -n 's/^ \* Version:[[:space:]]*//p' builder-meta-cleanup.php | tr -d '\r')
+          bash bin/release-notes.sh "$version" builder-meta-cleanup.php "$RUNNER_TEMP/release-notes.md"

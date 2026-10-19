@@ -12,10 +12,10 @@ WordPress plugin (PHP 7.4+, WordPress 6.0+). No Composer or npm. Repo map and re
 - **License:** GPL-2.0-or-later.
 - **Repo:** https://github.com/oduppinsjr/wp-builder-meta-cleanup (public).
 - **Current version:** 2.3.4, declared in the plugin header and `BUILDER_META_CLEANUP_VERSION`.
-- **Updater:** `includes/class-updater.php`. Default source is GitHub Releases (`releases/latest`). `wordpress` and `both` also call WordPress.org `plugins_api`. Option `builder_meta_cleanup_update_source` (default `github`).
+- **Updater:** `includes/class-builder-meta-cleanup-github-updater.php` (`Builder_Meta_Cleanup_GitHub_Updater`, standard v1.1.0). GitHub Releases only. Booted at load. Disable with `BUILDER_META_CLEANUP_DISABLE_GITHUB_UPDATER`. Cache option `builder_meta_cleanup_github_release`.
 - **Dependencies:** none.
-- **Integrations:** unauthenticated GitHub Releases API; WordPress.org plugin information API when that source is selected.
-- **Security-sensitive files:** `includes/class-service.php` (deletes rows), `includes/class-admin.php` (Tools POST), `includes/class-updater.php` (remote HTTP and update injection), `includes/class-cli.php` (deletes).
+- **Integrations:** unauthenticated GitHub Releases API (`api.github.com`).
+- **Security-sensitive files:** `includes/class-service.php` (deletes rows), `includes/class-admin.php` (Tools POST), `includes/class-builder-meta-cleanup-github-updater.php` (remote HTTP and update injection), `includes/class-cli.php` (deletes).
 - **Departments skipped:** none.
 
 ## What this is
@@ -26,11 +26,12 @@ It does not remove shortcodes or HTML inside `post_content`. It is not a general
 
 ## Architecture
 
-- `builder-meta-cleanup.php` — header, version constants, requires the classes, starts the updater and admin on `plugins_loaded`, and registers WP-CLI when `WP_CLI` is defined.
+- `builder-meta-cleanup.php` — header, version constants, requires the classes, boots the GitHub updater at load, starts admin on `plugins_loaded`, and registers WP-CLI when `WP_CLI` is defined.
 - `includes/class-service.php` — target registry, install/active checks, and batched postmeta and `wp_options` deletes.
 - `includes/data-plugin-cruft-targets.php` — preset plugin targets merged into the registry.
 - `includes/class-admin.php` — Tools screen (`tools.php?page=builder-meta-cleanup`): Summary, Themes & frameworks, Page builders, Plugins, About & tools.
-- `includes/class-updater.php` — injects GitHub and optional WordPress.org updates into `site_transient_update_plugins`.
+- `includes/class-builder-meta-cleanup-github-updater.php` — GitHub Releases updater (standard v1.1.0). Release asset `wp-builder-meta-cleanup.zip`.
+- `uninstall.php` — deletes the updater cache and the previous update-source option.
 - `includes/class-cli.php` — `wp builder-meta` commands for counts and deletes.
 - `tests/` — `lint.php` (`php -l`) and `smoke.php` (plugin header only; does not load WordPress).
 - `index.php` — empty file so directory listing stays closed.

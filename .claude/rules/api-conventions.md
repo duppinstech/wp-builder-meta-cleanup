@@ -27,6 +27,5 @@ paths:
   - `builder_meta_cleanup_targets` — replace or extend the full target registry.
   - `builder_meta_cleanup_is_target_active` — edge case for whether a target is active.
   - `builder_meta_cleanup_is_target_installed` — edge case for whether a target is installed.
-  - `builder_meta_cleanup_github_repo` — `owner/repo` the updater reads (`includes/class-updater.php`). Default `oduppinsjr/wp-builder-meta-cleanup`.
-  - `builder_meta_cleanup_wporg_slug` — WordPress.org slug. Default `builder-meta-cleanup`.
-  - `builder_meta_cleanup_github_http_args` — arguments passed to the GitHub `wp_remote_get()`.
+  - `builder_meta_cleanup_github_updater_config` — updater owner, repo, token, and cache times (`includes/class-builder-meta-cleanup-github-updater.php`).
+  - `builder_meta_cleanup_github_release_http_args` — arguments for the GitHub latest-release request.

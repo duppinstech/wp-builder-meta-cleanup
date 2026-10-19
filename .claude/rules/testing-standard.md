@@ -33,5 +33,5 @@ php tests/smoke.php
 - `Builder_Meta_Cleanup_Service::delete_meta_like()`, `delete_options_like()`, `delete_option_by_name()`, and `delete_all_for_inactive()` — these delete database rows.
 - `Builder_Meta_Cleanup_Service::is_target_active()` — the guard that must stay closed for an active stack.
 - `Builder_Meta_Cleanup_Admin::render_page()` — Tools POST: nonce `builder_meta_cleanup_action`, capability `manage_options`, then deletes.
-- `Builder_Meta_Cleanup_Updater::get_github_payload()` and `inject_update()` — remote HTTP and the update object WordPress installs.
+- `Builder_Meta_Cleanup_GitHub_Updater::get_release()` and `filter_update_transient()` — remote HTTP and the update object WordPress installs. The class is the shared standard; do not fork its behavior here.
 - `Builder_Meta_Cleanup_CLI::handle()` — the same deletes over WP-CLI.

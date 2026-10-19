@@ -33,3 +33,11 @@ Append-only log. Format: `## YYYY-MM-DD — Title`, then **Context** / **Decisio
 **Decision:** `delete_all_for_inactive()` takes an optional target-id allowlist. The Tools POST handler checks posted ids against the live registry and runs `is_target_active()` again before deleting.
 
 **Consequences:** Unchecked stacks are skipped. The request cannot add an active stack. WP-CLI `clean-orphans` passes no allowlist and still deletes every inactive target (`CHANGELOG.md`).
+
+## 2026-10-18 — GitHub updater standard v1.1.0
+
+**Context:** The plugin had its own updater in `includes/class-updater.php`, with an update-source option of `github`, `wordpress`, or `both`.
+
+**Decision:** That class is replaced by `Builder_Meta_Cleanup_GitHub_Updater`, a verbatim port of the Duppins GitHub updater standard v1.1.0. Updates come from GitHub Releases for `oduppinsjr/wp-builder-meta-cleanup` only. The release asset is `wp-builder-meta-cleanup.zip`. `uninstall.php` deletes `builder_meta_cleanup_github_release` and the old source option and transients.
+
+**Consequences:** The filters `builder_meta_cleanup_github_repo`, `builder_meta_cleanup_wporg_slug`, and `builder_meta_cleanup_github_http_args` are gone. The new filters are `builder_meta_cleanup_github_updater_config` and `builder_meta_cleanup_github_release_http_args`. Do not change updater behavior in this repo.

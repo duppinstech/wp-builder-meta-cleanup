@@ -25,8 +25,18 @@ define( 'BUILDER_META_CLEANUP_FILE', __FILE__ );
 define( 'BUILDER_META_CLEANUP_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once BUILDER_META_CLEANUP_DIR . 'includes/class-service.php';
-require_once BUILDER_META_CLEANUP_DIR . 'includes/class-updater.php';
 require_once BUILDER_META_CLEANUP_DIR . 'includes/class-admin.php';
+require_once BUILDER_META_CLEANUP_DIR . 'includes/class-builder-meta-cleanup-github-updater.php';
+
+Builder_Meta_Cleanup_GitHub_Updater::boot(
+	array(
+		'file'    => __FILE__,
+		'version' => BUILDER_META_CLEANUP_VERSION,
+		'owner'   => 'oduppinsjr',
+		'repo'    => 'wp-builder-meta-cleanup',
+		'prefix'  => 'builder_meta_cleanup',
+	)
+);
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once BUILDER_META_CLEANUP_DIR . 'includes/class-cli.php';
@@ -42,7 +52,6 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 add_action(
 	'plugins_loaded',
 	static function () {
-		Builder_Meta_Cleanup_Updater::init();
 		Builder_Meta_Cleanup_Admin::init();
 	},
 	20

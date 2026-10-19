@@ -13,7 +13,7 @@ WordPress plugin: detect page builders/themes/plugins, show install/active state
 | Bootstrap, version constant | `builder-meta-cleanup.php` |
 | Target registry, DB helpers, `is_target_*`, `get_targets()` cache | `includes/class-service.php` |
 | Tools UI (tabs, forms), nonce actions | `includes/class-admin.php` |
-| GitHub / WP.org update injection | `includes/class-updater.php` |
+| GitHub Releases updater (standard v1.1.0) | `includes/class-builder-meta-cleanup-github-updater.php` |
 | WP-CLI | `includes/class-cli.php` |
 | Preset “cruft” plugin targets (merged into registry) | `includes/data-plugin-cruft-targets.php` |
 
@@ -30,7 +30,8 @@ WordPress plugin: detect page builders/themes/plugins, show install/active state
 - `builder_meta_cleanup_targets` — full registry merge.
 - `builder_meta_cleanup_plugin_paths` — adjust paths per target (e.g. Magic Page custom folder).
 - `builder_meta_cleanup_is_target_active` / `builder_meta_cleanup_is_target_installed` — edge cases.
-- `builder_meta_cleanup_github_repo` — default `oduppinsjr/wp-builder-meta-cleanup`.
+- `builder_meta_cleanup_github_updater_config` — updater owner, repo, token, and cache times.
+- `builder_meta_cleanup_github_release_http_args` — arguments for the GitHub latest-release request.
 
 ## Version bump checklist (every release)
 
@@ -56,18 +57,19 @@ Align changelog wording with the bump you ship.
 1. **Commit every coherent change** to `main` (or PR then merge to `main`).
 2. **Push to GitHub** after commits so the remote stays the source of truth.
 3. **Tag releases** for sites using GitHub updates: `git tag -a vX.Y.Z -m "vX.Y.Z: …"` then `git push origin vX.Y.Z`.
-4. **Create a GitHub Release** for that tag (attach a zip whose root folder is `builder-meta-cleanup` if you distribute by zip; releases drive `releases/latest` for the updater).
+4. **Push a `vX.Y.Z` tag.** `.github/workflows/release.yml` checks the tag against the header, `BUILDER_META_CLEANUP_VERSION`, and `readme.txt` Stable tag, then publishes `wp-builder-meta-cleanup.zip` (folder inside the zip: `builder-meta-cleanup/`) and release notes from `bin/release-notes.sh`.
 
-Auto-updates in WordPress use `Builder_Meta_Cleanup_Updater`: it reads **GitHub Releases API** (`releases/latest`) when update source is GitHub/both. **No GitHub Release → no update notification** for those installs.
+Auto-updates use `Builder_Meta_Cleanup_GitHub_Updater` (standard v1.1.0). It reads GitHub `releases/latest` for `oduppinsjr/wp-builder-meta-cleanup`. **No usable GitHub Release asset → no update package.** Dashboard → Updates → Check again clears the updater cache.
 
 Quick release commands (after push):
 
 ```bash
-git tag -a v2.2.0 -m "v2.2.0: …"
 git push origin main
-git push origin v2.2.0
-gh release create v2.2.0 --title "Builder Meta Cleanup v2.2.0" --generate-notes
+git tag -a v2.3.4 -m "v2.3.4: …"
+git push origin v2.3.4
 ```
+
+The tag push runs the release workflow. It writes the release body. Do not create that release by hand.
 
 ## Admin URL
 
