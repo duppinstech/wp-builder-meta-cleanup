@@ -47,7 +47,7 @@ jobs:
         run: bash bin/release-notes.sh "${GITHUB_REF_NAME#v}" builder-meta-cleanup.php release-notes.md
 
       - name: Publish GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: wp-builder-meta-cleanup.zip
           body_path: release-notes.md
