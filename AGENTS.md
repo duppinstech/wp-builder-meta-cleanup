@@ -15,7 +15,7 @@ WordPress plugin (PHP 7.4+, WordPress 6.0+). No Composer or npm. Repo map and re
 - **Updater:** `includes/class-builder-meta-cleanup-github-updater.php` (`Builder_Meta_Cleanup_GitHub_Updater`, standard v1.1.0). GitHub Releases only. Booted at load. Disable with `BUILDER_META_CLEANUP_DISABLE_GITHUB_UPDATER`. Cache option `builder_meta_cleanup_github_release`.
 - **Dependencies:** none.
 - **Integrations:** unauthenticated GitHub Releases API (`api.github.com`).
-- **Security-sensitive files:** `includes/class-service.php` (deletes rows), `includes/class-admin.php` (Tools POST), `includes/class-builder-meta-cleanup-github-updater.php` (remote HTTP and update injection), `includes/class-cli.php` (deletes).
+- **Security-sensitive files:** `includes/class-service.php` (deletes rows), `includes/class-admin.php` (Tools POST), `includes/class-builder-meta-cleanup-github-updater.php` (remote HTTP and update injection), `includes/class-builder-meta-cleanup-plugin-info.php` (plugins screen links and View details), `includes/class-cli.php` (deletes).
 - **Departments skipped:** none.
 
 ## What this is
@@ -30,6 +30,7 @@ It does not remove shortcodes or HTML inside `post_content`. It is not a general
 - `includes/class-service.php` — target registry, install/active checks, and batched postmeta and `wp_options` deletes.
 - `includes/data-plugin-cruft-targets.php` — preset plugin targets merged into the registry.
 - `includes/class-admin.php` — Tools screen (`tools.php?page=builder-meta-cleanup`): Summary, Themes & frameworks, Page builders, Plugins, About & tools.
+- `includes/class-builder-meta-cleanup-plugin-info.php` — View details, Settings, Sponsor, and Support from `readme.txt` and `assets/wporg/` (plugin information standard v1.0.0). There is no public Help guide.
 - `includes/class-builder-meta-cleanup-github-updater.php` — GitHub Releases updater (standard v1.1.0). Release asset `wp-builder-meta-cleanup.zip`.
 - `uninstall.php` — deletes the updater cache and the previous update-source option.
 - `includes/class-cli.php` — `wp builder-meta` commands for counts and deletes.

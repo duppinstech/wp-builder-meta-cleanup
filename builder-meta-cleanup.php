@@ -38,6 +38,17 @@ Builder_Meta_Cleanup_GitHub_Updater::boot(
 	)
 );
 
+require_once BUILDER_META_CLEANUP_DIR . 'includes/class-builder-meta-cleanup-plugin-info.php';
+
+Builder_Meta_Cleanup_Plugin_Info::boot(
+	array(
+		'file'         => __FILE__,
+		'settings_url' => 'tools.php?page=builder-meta-cleanup',
+		'help_url'     => '',
+		'support_url'  => 'mailto:support@duppinstech.com',
+	)
+);
+
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once BUILDER_META_CLEANUP_DIR . 'includes/class-cli.php';
 	add_action(
