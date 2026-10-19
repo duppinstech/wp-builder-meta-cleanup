@@ -9,36 +9,50 @@ Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Detect major page builders, show install/active state, and remove orphaned postmeta or allowlisted options only when each stack is inactive. Includes WP-CLI.
+Shows which page builders and themes are active, and deletes leftover database rows only when they are inactive.
 
 == Description ==
 
-Builder Meta Cleanup helps after you migrate away from a page builder or theme framework. It lists common stacks (Elementor, Divi, Beaver Builder, Bricks, SeedProd, Hello Elementor, BeTheme, Astra, Fusion / Avada, plus Elementor companion plugins such as Premium Addons, Essential Addons, and Ultimate Addons), shows whether each is installed and active, and lets you delete matching **postmeta**, selected **wp_options** rows, or **wp_options** rows matching safe prefixes (for example PA_, FS_) only when that stack is **not** active—so you do not wipe data for a builder or addon you still use.
+Builder Meta Cleanup is for a site that has moved off a page builder or theme and still has that product's data in the database.
 
-* **Tools screen** — row counts, badges, and checkboxes for safe cleanup.
-* **WP-CLI** — `wp builder-meta counts`, `delete`, `option-counts`, `options-delete`.
+It lists the stacks it knows, shows whether each one is installed and active, and deletes matching post meta and selected options only when that stack is not active. It does not change the content of your pages, including shortcodes.
 
-Extend behavior with the `builder_meta_cleanup_targets` filter.
+The Tools screen covers themes and frameworks (including Astra, BeTheme, Impreza, and OceanWP), page builders (including Elementor, Divi, Beaver Builder, Bricks, SeedProd, Hello Elementor, and Fusion / Avada), and companion plugins such as Premium Addons, Essential Addons, and Ultimate Addons. The Plugins tab also lists other common plugins that can leave options or post meta behind.
+
+* See row counts and choose what to delete.
+* Cleanup stays off while that stack is still active.
+* The same counts and deletes are available in WP-CLI as `wp builder-meta`.
+
+= Support =
+
+Support: [support@duppinstech.com](mailto:support@duppinstech.com). Made by [Duppins Technology](https://duppinstech.com).
 
 == Installation ==
 
-1. Upload the plugin folder to `/wp-content/plugins/`, or install the zip from Releases.
-2. Activate **Builder Meta Cleanup** through the Plugins menu.
-3. Go to **Tools → Builder Meta Cleanup**.
+1. Download the plugin zip from the latest release.
+2. In wp-admin, go to Plugins, Add New, Upload Plugin, choose the zip, and click Install Now.
+3. Activate Builder Meta Cleanup.
+4. Go to Tools, Builder Meta Cleanup.
+
+= Updates =
+
+New releases appear under Dashboard, Updates. Use Check again there to look for a release now.
 
 == Frequently Asked Questions ==
 
 = Will this delete shortcodes in post content? =
 
-No. It only removes matching rows from `postmeta` (and selected `options` you choose). Post content is unchanged.
+No. It only removes matching rows from post meta and the options you choose. Page content is unchanged.
 
-= Why is cleanup disabled for an “active” stack? =
+= Why is cleanup disabled for an active stack? =
 
-So you cannot delete meta that the live theme or plugin still needs.
+So you cannot delete data that the live theme or plugin still needs.
+
+= Where do updates come from? =
+
+GitHub Releases. Open Dashboard, Updates, and choose Check again to look for a new release.
 
 == Screenshots ==
-
-1. Tools screen with install/active badges and cleanup controls.
 
 == Changelog ==
 
