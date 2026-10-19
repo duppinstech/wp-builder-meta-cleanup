@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.3.5] — 2026-10-18
+
+### Added
+
+- Plugins screen: Settings opens Tools → Builder Meta Cleanup. Sponsor and Support are on the plugin row. View details shows the banner, icon, and Description, Installation, FAQ, and Changelog from `readme.txt`. The Changelog tab uses the GitHub release notes when the updater has them.
+- Banner and icon in `assets/wporg/`.
+
+### Changed
+
+- Updates come from GitHub Releases only, through the shared updater standard v1.1.0. Dashboard → Updates → Check again refreshes that check.
+- The release workflow publishes `wp-builder-meta-cleanup.zip` and writes the release notes from this changelog.
+- Cleanup behavior is unchanged.
+
+### Removed
+
+- About & tools update-source setting (GitHub, WordPress.org, or both).
+
 ## [2.3.4] — 2026-10-18
 
 ### Changed
@@ -105,7 +122,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Initial public release: multi-builder detection, safe postmeta and allowlisted `wp_options` cleanup, WP-CLI commands (`counts`, `delete`, `option-counts`, `options-delete`).
 - Core stacks: Elementor, Divi / Extra, Beaver Builder, Bricks, SeedProd, Hello Elementor, BeTheme / Muffin, Astra.
 
-[Unreleased]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.3.4...HEAD
+[Unreleased]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.3.5...HEAD
+[2.3.5]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/compare/v2.3.4...v2.3.5
 [2.3.4]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.4
 [2.3.3]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.3
 [2.3.2]: https://github.com/oduppinsjr/wp-builder-meta-cleanup/releases/tag/v2.3.2

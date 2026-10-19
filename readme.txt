@@ -4,7 +4,7 @@ Donate link: https://duppinstech.com
 Tags: elementor, divi, database, postmeta, cleanup
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 2.3.4
+Stable tag: 2.3.5
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -56,6 +56,11 @@ GitHub Releases. Open Dashboard, Updates, and choose Check again to look for a n
 
 == Changelog ==
 
+= 2.3.5 =
+* Plugins screen: Settings opens Tools → Builder Meta Cleanup. Sponsor and Support links are on the plugin row. View details shows the banner, icon, and Description, Installation, FAQ, and Changelog from this readme. The Changelog tab uses the GitHub release notes when an update has been checked.
+* Updates come from GitHub Releases only. The About & tools choice of GitHub, WordPress.org, or both is gone.
+* Cleanup behavior is unchanged.
+
 = 2.3.4 =
 * Maintenance release. Cleanup behavior is unchanged.
 
@@ -93,6 +98,9 @@ GitHub Releases. Open Dashboard, Updates, and choose Check again to look for a n
 * Maintenance and documentation updates for plugin directory checks.
 
 == Upgrade Notice ==
+
+= 2.3.5 =
+Plugins screen details and GitHub-only updates. Cleanup behavior is unchanged.
 
 = 2.3.4 =
 Maintenance release. Cleanup behavior is unchanged.

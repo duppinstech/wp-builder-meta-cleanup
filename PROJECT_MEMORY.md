@@ -65,8 +65,8 @@ Quick release commands (after push):
 
 ```bash
 git push origin main
-git tag -a v2.3.4 -m "v2.3.4: …"
-git push origin v2.3.4
+git tag -a v2.3.5 -m "v2.3.5: …"
+git push origin v2.3.5
 ```
 
 The tag push runs the release workflow. It writes the release body. Do not create that release by hand.
